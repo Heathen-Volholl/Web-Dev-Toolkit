@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebDev Toolbox PRO</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" href="assets/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo">WD</span>
+      <h1>WebDev Toolbox PRO</h1>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Tools">
+      <button class="tab active" data-tab="colors" role="tab" aria-selected="true">🎨 Colors</button>
+      <button class="tab" data-tab="minify" role="tab" aria-selected="false">🧹 Minify</button>
+      <button class="tab" data-tab="lint" role="tab" aria-selected="false">🔍 Lint / Check</button>
+      <button class="tab" data-tab="prettify" role="tab" aria-selected="false">🧰 Prettify</button>
+      <button class="tab" data-tab="responsive" role="tab" aria-selected="false">📱 Responsive</button>
+      <button class="tab" data-tab="contrast" role="tab" aria-selected="false">🧪 Contrast</button>
+      <button class="tab" data-tab="og" role="tab" aria-selected="false">🖼️ OG Preview</button>
+      <button class="tab" data-tab="sprites" role="tab" aria-selected="false">🧩 Sprites</button>
+      <button class="tab" data-tab="license" role="tab" aria-selected="false">📄 License</button>
+      <button class="tab" data-tab="settings" role="tab" aria-selected="false">⚙️ Settings</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Colors -->
+    <section id="panel-colors" class="panel active" role="tabpanel">
+      <div class="grid two">
+        <div>
+          <label>Pick</label>
+          <input type="color" id="colorPicker" value="#4f46e5">
+          <div class="swatch" id="swatch"></div>
+        </div>
+        <div class="stack">
+          <label for="hexInput">HEX</label>
+          <input id="hexInput" placeholder="#aabbcc" value="#4f46e5" spellcheck="false">
+
+          <label for="rgbInput">RGB</label>
+          <input id="rgbInput" placeholder="rgb(79,70,229)" value="rgb(79,70,229)" spellcheck="false">
+
+          <label for="hslInput">HSL</label>
+          <input id="hslInput" placeholder="hsl(245 77% 59%)" value="hsl(245 77% 59%)" spellcheck="false">
+
+          <div class="row">
+            <button id="btnCopyColor" class="btn">Copy HEX</button>
+            <button id="btnPalette" class="btn ghost">Make Palette</button>
+          </div>
+        </div>
+      </div>
+      <div id="palette" class="palette"></div>
+    </section>
+
+    <!-- Minify -->
+    <section id="panel-minify" class="panel" role="tabpanel">
+      <div class="row">
+        <select id="minifyType" aria-label="Language">
+          <option value="js">JavaScript</option>
+          <option value="css">CSS</option>
+          <option value="html">HTML</option>
+        </select>
+        <button id="btnMinify" class="btn">Minify</button>
+        <button id="btnCopyMin" class="btn ghost">Copy</button>
+      </div>
+      <div class="grid two">
+        <textarea id="minifyIn" placeholder="Paste code to minify..."></textarea>
+        <textarea id="minifyOut" placeholder="Minified output..." readonly></textarea>
+      </div>
+      <p class="muted">Note: built-in minifier is conservative. For production, prefer dedicated build tooling.</p>
+    </section>
+
+    <!-- Lint / Check -->
+    <section id="panel-lint" class="panel" role="tabpanel">
+      <div class="grid three">
+        <div class="card">
+          <h3>HTML Lint</h3>
+          <textarea id="htmlLint" placeholder="Paste HTML..."></textarea>
+          <button id="btnLintHTML" class="btn">Run</button>
+          <ul id="htmlIssues" class="issues"></ul>
+        </div>
+        <div class="card">
+          <h3>JS Lint (ESLint‑style)</h3>
+          <textarea id="jsLint" placeholder="Paste JS..."></textarea>
+          <div class="row">
+            <label><input type="checkbox" id="ruleNoVar" checked> no-var</label>
+            <label><input type="checkbox" id="ruleEqeqeq" checked> eqeqeq</label>
+            <label><input type="checkbox" id="ruleNoEval" checked> no-eval</label>
+            <label><input type="checkbox" id="ruleNoConsole"> no-console</label>
+            <label><input type="checkbox" id="ruleSemicolons"> require-semi</label>
+          </div>
+          <button id="btnLintJS" class="btn">Run</button>
+          <ul id="jsIssues" class="issues"></ul>
+        </div>
+        <div class="card">
+          <h3>CSS Lint</h3>
+          <textarea id="cssLint" placeholder="Paste CSS..."></textarea>
+          <div class="row">
+            <label><input type="checkbox" id="ruleNoImp" checked> disallow !important</label>
+            <label><input type="checkbox" id="ruleZeroUnit" checked> 0 without unit</label>
+          </div>
+          <button id="btnLintCSS" class="btn">Run</button>
+          <ul id="cssIssues" class="issues"></ul>
+        </div>
+      </div>
+      <p class="muted">Offline linters mimic common ESLint/Stylelint/HTMLHint checks. You can swap in real engines later.</p>
+    </section>
+
+    <!-- Prettify -->
+    <section id="panel-prettify" class="panel" role="tabpanel">
+      <div class="grid three">
+        <div class="card">
+          <h3>JSON</h3>
+          <textarea id="jsonIn" placeholder="Paste JSON..."></textarea>
+          <div class="row">
+            <button id="btnJsonPretty" class="btn">Prettify</button>
+            <button id="btnJsonMin" class="btn ghost">Minify</button>
+          </div>
+          <textarea id="jsonOut" readonly></textarea>
+        </div>
+        <div class="card">
+          <h3>YAML (basic)</h3>
+          <textarea id="yamlIn" placeholder="Paste simple YAML..."></textarea>
+          <div class="row">
+            <button id="btnYamlToJson" class="btn">YAML → JSON</button>
+            <button id="btnJsonToYaml" class="btn ghost">JSON → YAML</button>
+          </div>
+          <textarea id="yamlOut" readonly></textarea>
+          <p class="muted">Supports common YAML (keys, lists, nesting). Anchors/aliases not supported offline.</p>
+        </div>
+        <div class="card">
+          <h3>XML</h3>
+          <textarea id="xmlIn" placeholder="Paste XML..."></textarea>
+          <div class="row">
+            <button id="btnXmlPretty" class="btn">Prettify</button>
+            <button id="btnXmlMin" class="btn ghost">Minify</button>
+          </div>
+          <textarea id="xmlOut" readonly></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Responsive Tester -->
+    <section id="panel-responsive" class="panel" role="tabpanel">
+      <div class="card">
+        <h3>Responsive Preview</h3>
+        <div class="row">
+          <select id="deviceSel">
+            <option value="320x568">Mobile S (320×568)</option>
+            <option value="375x667">Mobile M (375×667)</option>
+            <option value="390x844">iPhone 12/13 (390×844)</option>
+            <option value="414x896">Mobile L (414×896)</option>
+            <option value="768x1024">Tablet (768×1024)</option>
+            <option value="1024x1366">iPad Pro (1024×1366)</option>
+            <option value="1280x800">Laptop (1280×800)</option>
+            <option value="1440x900">Laptop L (1440×900)</option>
+            <option value="1920x1080">Desktop (1920×1080)</option>
+          </select>
+          <input id="previewUrl" placeholder="https://example.com OR paste raw HTML below">
+          <button id="btnLoadURL" class="btn">Load URL</button>
+          <button id="btnLoadHTML" class="btn ghost">Load From HTML</button>
+        </div>
+        <textarea id="previewHtml" placeholder="(Optional) Paste HTML here to preview without CORS/iframe issues..."></textarea>
+        <div id="previewWrap"><iframe id="previewFrame" sandbox="allow-scripts allow-same-origin allow-forms"></iframe></div>
+      </div>
+    </section>
+
+    <!-- Contrast Checker -->
+    <section id="panel-contrast" class="panel" role="tabpanel">
+      <div class="grid two">
+        <div class="card">
+          <h3>Colors</h3>
+          <div class="row">
+            <label>Foreground <input type="color" id="fgColor" value="#111111"></label>
+            <label>Background <input type="color" id="bgColor" value="#ffffff"></label>
+          </div>
+          <div class="row">
+            <input id="fgText" value="#111111">
+            <input id="bgText" value="#ffffff">
+            <button id="btnSwap" class="btn ghost">Swap</button>
+          </div>
+          <div class="row">
+            <button id="btnSuggestAA" class="btn">Suggest AA</button>
+            <button id="btnSuggestAAA" class="btn ghost">Suggest AAA</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Results</h3>
+          <p>Contrast ratio: <strong id="ratioVal">—</strong></p>
+          <ul>
+            <li>Normal text (AA ≥ 4.5:1, AAA ≥ 7:1): <span id="scoreNormal">—</span></li>
+            <li>Large text ≥ 18.66px/14px bold (AA ≥ 3:1, AAA ≥ 4.5:1): <span id="scoreLarge">—</span></li>
+          </ul>
+          <div class="previewContrast" id="contrastPreview">
+            <div class="sample normal">The quick brown fox jumps over the lazy dog.</div>
+            <div class="sample large" style="font-size:1.2rem;font-weight:600">Large text sample</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Graph Preview -->
+    <section id="panel-og" class="panel" role="tabpanel">
+      <div class="grid two">
+        <div class="card">
+          <h3>Meta</h3>
+          <input id="ogTitle" placeholder="Title">
+          <input id="ogDesc" placeholder="Description">
+          <input id="ogImage" placeholder="Image URL (https://)">
+          <input id="ogSite" placeholder="Site name">
+          <input id="ogUrl" placeholder="Canonical URL">
+          <button id="btnRenderOG" class="btn">Render Preview</button>
+        </div>
+        <div class="card">
+          <h3>Preview</h3>
+          <div id="ogCard" class="og-card">
+            <div class="og-img"></div>
+            <div class="og-meta">
+              <div class="og-site"></div>
+              <div class="og-title"></div>
+              <div class="og-desc"></div>
+              <div class="og-url"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sprite Sheet Maker -->
+    <section id="panel-sprites" class="panel" role="tabpanel">
+      <div class="card">
+        <h3>Sprite Sheet Maker</h3>
+        <div class="row">
+          <input id="spritePrefix" placeholder="Class prefix (e.g. icon-)">
+          <input id="spritePadding" type="number" min="0" max="64" value="2" style="max-width:120px">
+          <button id="btnBuildSprites" class="btn">Build</button>
+          <a id="btnDownloadSprite" class="btn ghost" download="sprites.png">Download PNG</a>
+          <a id="btnDownloadCSS" class="btn ghost" download="sprites.css">Download CSS</a>
+          <a id="btnDownloadJSON" class="btn ghost" download="sprites.json">Download JSON</a>
+        </div>
+        <div id="dropZone" class="dropzone">Drop images here or click to select</div>
+        <input id="filePicker" type="file" accept="image/*" multiple hidden>
+        <canvas id="spriteCanvas" width="2048" height="2048"></canvas>
+        <pre id="spriteCSS" class="mono"></pre>
+      </div>
+    </section>
+
+    <!-- License Header Injector -->
+    <section id="panel-license" class="panel" role="tabpanel">
+      <div class="grid two">
+        <div class="card">
+          <h3>License</h3>
+          <select id="licenseLang">
+            <option value="js">JavaScript</option>
+            <option value="css">CSS</option>
+            <option value="html">HTML</option>
+            <option value="py">Python</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="cs">C#</option>
+            <option value="java">Java</option>
+          </select>
+          <textarea id="licenseText" placeholder="Paste license text..."></textarea>
+        </div>
+        <div class="card">
+          <h3>Apply to Code</h3>
+          <textarea id="licenseCodeIn" placeholder="Paste code..."></textarea>
+          <div class="row">
+            <button id="btnInjectTop" class="btn">Inject at Top</button>
+            <button id="btnInjectBlock" class="btn ghost">Wrap as Block</button>
+          </div>
+          <textarea id="licenseCodeOut" readonly></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="panel-settings" class="panel" role="tabpanel">
+      <div class="card">
+        <h3>App Settings</h3>
+        <div class="row">
+          <label><input id="themeToggle" type="checkbox"> Dark mode</label>
+          <button id="btnExport" class="btn">Export Workspace JSON</button>
+          <input id="importFile" type="file" accept="application/json" hidden />
+          <button id="btnImport" class="btn ghost">Import</button>
+        </div>
+        <div class="row">
+          <button id="btnChooseAutosave" class="btn">Choose Autosave File</button>
+          <label><input type="checkbox" id="autosaveToggle"> Autosave on change</label>
+        </div>
+        <p class="muted">Tip: Save exported JSON to a Dropbox folder to keep your Chromebook and home PC in sync. The File System Access API lets you autosave directly to a chosen file (Chrome-based browsers).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Installable PWA • Offline-ready • Chromebook-friendly</span>
+    <button id="btnInstall" class="btn ghost">Install</button>
+  </footer>
+
+  <script src="js/app.js" type="module"></script>
+</body>
+</html>
