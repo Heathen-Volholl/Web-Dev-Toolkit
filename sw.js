@@ -1,5 +1,5 @@
 // WebDev Toolbox PRO Service Worker
-const CACHE = 'wd-toolbox-pro-v1';
+const CACHE = 'wd-toolbox-pro-v2';
 const ASSETS = [
   './',
   './index.html',
